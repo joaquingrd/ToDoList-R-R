@@ -1,5 +1,5 @@
 import React from "react";
-import TareaItem from "../TareaItem/TareaItem";
+//import TareaItem from "../TareaItem/TareaItem";
 
 const ListaTareas = () => {
   return (

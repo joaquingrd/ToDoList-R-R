@@ -1,7 +1,26 @@
 import { useState } from "react";
 
+let validate = (form, errors, setErrors) => {
+  if (form.tarea) setErrors({ errors, tarea: "Agrega una tarea" });
+  else setErrors({ errors, tarea: "todo bien" });
+  if (!form.duracion)
+    setErrors({ errors, duracion: "Seleccionar duración estimada" });
+  else setErrors({ errors, duracion: "" });
+  if (!form.estado) setErrors({ errors, estado: "Seleccionar estado" });
+  else setErrors({ errors, estado: "" });
+};
+
 const Form = () => {
   let [form, setForm] = useState({
+    tarea: "",
+    descripcion: "",
+    duracion: "",
+    prioridad: "",
+    categoria: "",
+    estado: "",
+  });
+
+  let [errors, setErrors] = useState({
     tarea: "",
     descripcion: "",
     duracion: "",
@@ -13,8 +32,12 @@ const Form = () => {
   let handleChange = (event) => {
     let property = event.target.name;
     let value = event.target.value;
+
     setForm({ ...form, [property]: value });
+
+    validate({ ...form, [property]: value }, errors, setErrors);
   };
+
   let submitHandler = (event) => {
     event.preventDefault();
     alert("Agregaste una tarea a la lista");
@@ -22,7 +45,7 @@ const Form = () => {
 
   return (
     <div>
-      <form>
+      <form on onSubmit={submitHandler}>
         <div>
           <label htmlFor="">TAREA</label>
           <input
@@ -34,6 +57,7 @@ const Form = () => {
             value={form.tarea}
             onChange={handleChange}
           />
+          <span>{errors.tarea}</span>
         </div>
         <div>
           <label htmlFor="">DESCRIPCIÓN</label>
@@ -44,7 +68,7 @@ const Form = () => {
             cols="50"
             placeholder="Describí brevemente la tarea"
             autoComplete="off"
-            value={form.tarea}
+            value={form.descripcion}
             onChange={handleChange}
           ></textarea>
         </div>
