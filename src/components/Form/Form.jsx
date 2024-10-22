@@ -1,14 +1,10 @@
 import { useState } from "react";
+import FormValidate from "../FormValidate/FormValidate";
 
-let validate = (form, errors, setErrors) => {
-  if (form.tarea) setErrors({ errors, tarea: "Agrega una tarea" });
-  else setErrors({ errors, tarea: "todo bien" });
-  if (!form.duracion)
-    setErrors({ errors, duracion: "Seleccionar duración estimada" });
-  else setErrors({ errors, duracion: "" });
-  if (!form.estado) setErrors({ errors, estado: "Seleccionar estado" });
-  else setErrors({ errors, estado: "" });
-};
+// let validate = (form, errors, setErrors) => {
+//   if (!form.tarea) setErrors({ errors, tarea: "Agrega una tarea" });
+//   else setErrors({ errors, tarea: "todo bien" });
+// };
 
 const Form = () => {
   let [form, setForm] = useState({
@@ -22,10 +18,7 @@ const Form = () => {
 
   let [errors, setErrors] = useState({
     tarea: "",
-    descripcion: "",
     duracion: "",
-    prioridad: "",
-    categoria: "",
     estado: "",
   });
 
@@ -35,12 +28,22 @@ const Form = () => {
 
     setForm({ ...form, [property]: value });
 
-    validate({ ...form, [property]: value }, errors, setErrors);
+    const newErrors = FormValidate(form);
+    setErrors(newErrors);
   };
 
   let submitHandler = (event) => {
     event.preventDefault();
-    alert("Agregaste una tarea a la lista");
+
+    if (
+      errors.tarea === "" ||
+      errors.tarea === "La tarea debe tener al menos 5 caracteres"
+    ) {
+      alert("No te olvides de agregar una tarea");
+    } else {
+      alert("Agregaste una tarea a la lista");
+    }
+    setErrors((errors.tarea = ""));
   };
 
   return (
@@ -80,7 +83,7 @@ const Form = () => {
             name="duracion"
             placeholder="Ingresá la duración"
             autoComplete="off"
-            value={form.tarea}
+            value={form.duracion}
             onChange={handleChange}
           />
         </div>
@@ -89,7 +92,7 @@ const Form = () => {
           <select
             id="prioridad"
             name="prioridad"
-            value={form.tarea}
+            value={form.prioridad}
             onChange={handleChange}
           >
             <option value="" disabled selected>
@@ -105,7 +108,7 @@ const Form = () => {
           <select
             id="categoria"
             name="categoria"
-            value={form.tarea}
+            value={form.categoria}
             onChange={handleChange}
           >
             <option value="" disabled selected>
@@ -123,7 +126,7 @@ const Form = () => {
           <select
             id="estado"
             name="estado"
-            value={form.tarea}
+            value={form.estado}
             onChange={handleChange}
           >
             <option value="" disabled selected>
