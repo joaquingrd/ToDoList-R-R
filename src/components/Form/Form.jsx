@@ -36,7 +36,7 @@ const Form = () => {
 
     if (form.tarea === "") {
       alert("No te olvides de agregar una tarea");
-    } else if (errors.tarea === "La tarea debe tener al menos 5 caracteres") {
+    } else if (errors.tarea !== "") {
       alert(errors.tarea);
     } else {
       setArrayTareas([...arrayTareas, form]);

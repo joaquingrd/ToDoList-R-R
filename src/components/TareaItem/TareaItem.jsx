@@ -1,9 +1,14 @@
 import React from "react";
 
 const TareaItem = () => {
+  let arrayTareas = [];
   return (
     <div>
-      <hr />
+      {arrayTareas.map((tarea, index) => (
+        <div key={index}>
+          <p>{tarea.tarea}</p>
+        </div>
+      ))}
     </div>
   );
 };

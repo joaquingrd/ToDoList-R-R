@@ -1,5 +1,5 @@
 import "./App.css";
-// import ListaTareas from "./components/ListaTareas/ListaTareas";
+import ListaTareas from "./components/ListaTareas/ListaTareas";
 import Form from "./components/Form/Form";
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <Form />
 
-      {/* <ListaTareas /> */}
+      <ListaTareas />
     </div>
   );
 }
