@@ -1,26 +1,25 @@
-import { useState } from "react";
-import FormValidate from "../FormValidate/FormValidate";
-
-// let validate = (form, errors, setErrors) => {
-//   if (!form.tarea) setErrors({ errors, tarea: "Agrega una tarea" });
-//   else setErrors({ errors, tarea: "todo bien" });
-// };
+import { useState, useEffect } from "react";
+import FormValidate from "../../utils/FormValidate";
 
 const Form = () => {
-  let [form, setForm] = useState({
+  let initialFormState = {
     tarea: "",
     descripcion: "",
     duracion: "",
     prioridad: "",
     categoria: "",
     estado: "",
-  });
+  };
+
+  let [form, setForm] = useState(initialFormState);
 
   let [errors, setErrors] = useState({
     tarea: "",
     duracion: "",
     estado: "",
   });
+
+  let [arrayTareas, setArrayTareas] = useState([]);
 
   let handleChange = (event) => {
     let property = event.target.name;
@@ -35,16 +34,22 @@ const Form = () => {
   let submitHandler = (event) => {
     event.preventDefault();
 
-    if (
-      errors.tarea === "" ||
-      errors.tarea === "La tarea debe tener al menos 5 caracteres"
-    ) {
+    if (form.tarea === "") {
       alert("No te olvides de agregar una tarea");
+    } else if (errors.tarea === "La tarea debe tener al menos 5 caracteres") {
+      alert(errors.tarea);
     } else {
+      setArrayTareas([...arrayTareas, form]);
+      setForm(initialFormState);
+
       alert("Agregaste una tarea a la lista");
     }
-    setErrors((errors.tarea = ""));
+    setErrors({ ...errors, tarea: "" });
   };
+
+  useEffect(() => {
+    console.log("Array de tareas actualizado", arrayTareas);
+  }, [arrayTareas]);
 
   return (
     <div>
@@ -69,7 +74,7 @@ const Form = () => {
             name="descripcion"
             rows="4"
             cols="50"
-            placeholder="Describí brevemente la tarea"
+            placeholder="Describe brevemente la tarea"
             autoComplete="off"
             value={form.descripcion}
             onChange={handleChange}
